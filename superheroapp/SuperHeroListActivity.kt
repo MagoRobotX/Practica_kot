@@ -65,7 +65,7 @@ class SuperHeroListActivity : AppCompatActivity() {
     }
 
     private fun getRetrofit(): Retrofit {
-        //val retrofit = Retrofit.Builder()
+
         return Retrofit
             .Builder()
             .baseUrl("https://superheroapi.com/")

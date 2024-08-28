@@ -1,5 +1,6 @@
 package com.magorobot.androidmaster.superheroapp
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,6 +8,7 @@ import com.magorobot.androidmaster.R
 
 class SuperHeroAdapter(var superheroList: List<SuperheroItemsResponse> = emptyList()) :
     RecyclerView.Adapter<SuperHeroViewHolder>() {
+        @SuppressLint("NotifyDataSetChanged")
         fun updateList(superheroList: List<SuperheroItemsResponse>){
             this.superheroList = superheroList
             notifyDataSetChanged()
