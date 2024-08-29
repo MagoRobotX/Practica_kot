@@ -1,5 +1,6 @@
 package com.magorobot.androidmaster.superheroapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.magorobot.androidmaster.databinding.ActivitySuperHeroListBinding
+import com.magorobot.androidmaster.superheroapp.DetailSuperheroActivity.Companion.EXTRA_ID
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,7 +38,7 @@ class SuperHeroListActivity : AppCompatActivity() {
             }
             override fun onQueryTextChange(newText: String?) = false
         })
-        adapter = SuperHeroAdapter()
+        adapter = SuperHeroAdapter{navigateToDetail(it)}
         binding.rvSuperHero.setHasFixedSize(true)
         binding.rvSuperHero.layoutManager = LinearLayoutManager(this)
         binding.rvSuperHero.adapter =adapter
@@ -49,17 +51,17 @@ class SuperHeroListActivity : AppCompatActivity() {
             val myResponse: Response<SuperHeroDataResponse> =
                 retrofit.create(ApiService::class.java).getSuperheroes(query)
             if (myResponse.isSuccessful) {
-                Log.i("aristidevs", "funciona :)")
+                Log.i("Magorobot", "funciona :)")
                 val response: SuperHeroDataResponse? = myResponse.body()
                 if (response != null) {
-                    Log.i("aristidevs", response.toString())
+                    Log.i("Magorobot", response.toString())
                     runOnUiThread {
                         adapter.updateList(response.superheroes)
                         binding.progressBar.isVisible = false
                     }
                 }
             } else {
-                Log.i("aristidevs", "No funciona :(")
+                Log.i("Magorobot", "No funciona :(")
             }
         }
     }
@@ -71,5 +73,11 @@ class SuperHeroListActivity : AppCompatActivity() {
             .baseUrl("https://superheroapi.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    private fun navigateToDetail(id:String){
+        val intent = Intent(this, DetailSuperheroActivity::class.java)
+        intent.putExtra(EXTRA_ID,id)
+        startActivity(intent)
     }
 }
