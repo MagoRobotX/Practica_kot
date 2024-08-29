@@ -46,9 +46,37 @@ class DetailSuperheroActivity : AppCompatActivity() {
 
     private fun createUI(superhero: SuperHeroDatailResponse) {
         Picasso.get().load(superhero.image.url).into(binding.ivSuperheroe)
-
+        binding.tvSuperName.text= superhero.name
+        prepareStats(superhero.powerstats)
+        binding.tvSuperBiografy.text=superhero.biography.fullname
+        binding.tvSuperPublisher.text =superhero.biography.publisher
 
     }
+
+    private fun prepareStats(powerstats: PowerStatusResponse) {
+
+       /** val params=binding.viCombat.layoutParams
+        params.height = powerstats.combat.toInt()
+        binding.viCombat.layoutParams = params **/
+        //updateHeight(binding.viewIntelligence, powerstats.intelligence.toInt())
+        updateHeight(binding.viewIntelligence, powerstats.intelligence)
+        updateHeight(binding.viewStrength, powerstats.strength)
+        updateHeight(binding.viewSpeed, powerstats.speed)
+        updateHeight(binding.viewDurability, powerstats.durability)
+        updateHeight(binding.viewPower, powerstats.power)
+        updateHeight(binding.viewCombat, powerstats.combat)
+
+    }
+     private fun updateHeight(view: View, stat:String){  //string era int
+         val params=view. layoutParams
+         //params.height =stat
+         params.height =pxToDp(stat.toFloat())
+         view.layoutParams=params
+     }
+    private fun pxToDp(px:Float):Int{
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, resources.displayMetrics).roundToInt()
+    }
+
 
     private fun getRetrofit(): Retrofit {
 
